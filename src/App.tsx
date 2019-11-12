@@ -33,6 +33,10 @@ const App: React.FC = () => {
   </Tabs>
   <h3> Only one tab </h3>
   <Tabs>
+  { true && 
+    <Tab title="conditional 1">
+      conditional tab pane 1
+    </Tab>}
     <Tab title ='tab1'>
       <TestComponent2 name="Jan"/>
     </Tab>

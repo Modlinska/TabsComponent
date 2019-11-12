@@ -7,20 +7,23 @@ interface TabsProps  {
     children?:any;
 }
 export const Tabs: React.FC<TabsProps> = (props) =>{
-  
-  const firstTab = (props.children.length)? props.children[0] : null;
-  const [isActive, setIsActive] = useState( (props.children.length)? firstTab.props.title : '');
+  const { children } = props;
+  const hasChildProps =(child: any) => child.props && child;
+  const childrenToRender = children.filter(hasChildProps); console.log(childrenToRender);
+  const firstTab = (childrenToRender) ? childrenToRender[0] : null;
+  const [isActive, setIsActive] = useState( (childrenToRender) ? firstTab.props.title : '');
   
   const onClickTabsItem = (title: string, e: any) =>{
       console.log(title);
-      const activeLabel =title;
+      const activeLabel = title;
       setIsActive(activeLabel);
   }
+
   return(
     <P.TabsWrapper>
-      {(props.children.length) && 
+      {(childrenToRender.length > 1 && 
       <P.TabsList className="tab-list">
-        {props.children.map((child: any) => {
+        {childrenToRender.map((child: any) => {
           const { title } = child.props;
 
           return (
@@ -33,12 +36,12 @@ export const Tabs: React.FC<TabsProps> = (props) =>{
           );
           })
         }
-    </P.TabsList> }
+      </P.TabsList> )}
       <TabContent >
-        {(props.children.length) ? props.children.map((child:any) => {
-          if (child.props.title !== isActive) return undefined;
+        {(childrenToRender.length >1) ? childrenToRender.map((child:any) => {
+          if ((child.props.title )!== isActive) return undefined;
           return child.props.children; 
-          }): props.children.props.children
+          }): childrenToRender[0].props.children
         }
       </TabContent >
     </P.TabsWrapper>
