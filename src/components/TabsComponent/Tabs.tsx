@@ -3,33 +3,26 @@ import TabHeader from './TabHeader';
 import TabContent from './TabContent';
 import * as P from './parts';
 
-interface TabsProps  {
-    children?:any;
-}
-export const Tabs: React.FC<TabsProps> = (props) =>{
-  const { children } = props;
-  const hasChildProps =(child: any) => child.props && child;
-  const childrenToRender = children.filter(hasChildProps); console.log(childrenToRender);
-  const firstTab = (childrenToRender) ? childrenToRender[0] : null;
-  const [isActive, setIsActive] = useState( (childrenToRender) ? firstTab.props.title : '');
+export const Tabs: React.FC = (props) =>{
+  const tabs = React.Children.toArray(props.children);
+  const [activeTab, setActiveTab] = useState(0);
   
-  const onClickTabsItem = (title: string, e: any) =>{
-      console.log(title);
-      const activeLabel = title;
-      setIsActive(activeLabel);
+  const onClickTabsItem = (index: number) => {
+    setActiveTab(index);
   }
 
   return(
     <P.TabsWrapper>
-      {(childrenToRender.length > 1 && 
-      <P.TabsList className="tab-list">
-        {childrenToRender.map((child: any) => {
+      {(tabs.length > 1 && 
+      <P.TabsList>
+        {tabs.map((child: any, index) => {
           const { title } = child.props;
 
           return (
             <TabHeader
-            activeTab={isActive}
-            key={title}
+            index={index}
+            isActive={activeTab === index}
+            key={index}
             label={title}
             onClick={onClickTabsItem}
             />
@@ -38,11 +31,7 @@ export const Tabs: React.FC<TabsProps> = (props) =>{
         }
       </P.TabsList> )}
       <TabContent >
-        {(childrenToRender.length >1) ? childrenToRender.map((child:any) => {
-          if ((child.props.title )!== isActive) return undefined;
-          return child.props.children; 
-          }): childrenToRender[0].props.children
-        }
+        {tabs[activeTab]}
       </TabContent >
     </P.TabsWrapper>
   );  

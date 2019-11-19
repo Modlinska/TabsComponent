@@ -1,8 +1,9 @@
-import React, {  ReactNode, Children } from 'react';
+import React, { ReactNode } from 'react';
 import * as P from './parts';
 
 interface TabProps {
-    children: any;
+    children: ReactNode;
+    title?: string;
 }
 export const Tab: React.FC<TabProps> = (props) =>{
 

@@ -5,17 +5,26 @@ export const TabsWrapper = styled.div`
 
 `;
 
-export const TabsListElement = styled.li`
+export const TabsListElement = styled.li<{isActive:boolean}>`
     display: inline-block;
     list-style: none;
     padding: 4px 8px;
-    border: 1px solid black;
+    color: grey;
+    cursor:pointer;
+    ${({ isActive }) => isActive && `
+        border-bottom:4px solid blue;
+        color: black;
+    `}
+    :hover {
+        color: blue
+    }
+
 `;
 
-export const Div = styled.div`
-margin: 0 32px;
-`;
+export const Div = styled.div``;
 
-export const TabsList = styled.ol``;
+export const TabsList = styled.ol`
+    padding: 0;
+`;
 
 export const Tab = styled.div``;

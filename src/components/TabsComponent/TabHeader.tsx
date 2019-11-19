@@ -2,20 +2,23 @@ import React from 'react';
 import * as P from './parts';
 
 export interface TabHeaderProps {
-    activeTab?: string;
+    isActive: boolean;
     label?: string;
-    onClick: any;
+    onClick: (index: number) => void;
+    index: number;
 }
 
 const TabHeader: React.FC<TabHeaderProps> = (props) => {
     const {
+        index,
         label, 
-        activeTab,
+        isActive,
         onClick }=props;
 
     return (
         <P.TabsListElement
-            onClick={() => onClick(label)}
+            isActive={isActive}
+            onClick={() => onClick(index)}
         >
             {label}
         </P.TabsListElement>
